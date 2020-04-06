@@ -2,7 +2,6 @@ package fr.insalyon.dasi.ihm.console;
 
 import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.dasi.metier.modele.Client;
-import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.service.Service;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -22,12 +21,12 @@ import javax.persistence.Persistence;
  */
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
 
         // TODO : Pensez à créer une unité de persistance "DASI-PU" et à vérifier son nom dans la classe JpaUtil
         // Contrôlez l'affichage du log de JpaUtil grâce à la méthode log de la classe JpaUtil
         JpaUtil.init();
-        initialiserEmployes();
+
         initialiserClients();            // Question 3
         //testerInscriptionClient();       // Question 4 & 5
         //testerRechercheClient();         // Question 6
@@ -42,34 +41,6 @@ public class Main {
     public static void afficherClient(Client client) {
         System.out.println("-> " + client);
     }
-    
-    public static void initialiserEmployes(){
-        System.out.println();
-        System.out.println("**** initialiserEmploye() ****");
-        System.out.println();
-        
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DASI-PU");
-        EntityManager em = emf.createEntityManager();
-        Employe employe1 = new Employe("ZHANG", "Mengxin", "mengxin.zhang@insa-lyon.fr", "0768060316","11112222",1998,1,8,false);
-        Employe employe2 = new Employe("KAKI","Haruka","kaki.haruka@google.fr","7896541225","11112222",2000,8,8,false);
-        
-        System.out.println();
-        System.out.println("** Employes avant persistance: ");
-        System.out.println(employe1);
-        System.out.println(employe2);
-        System.out.println();
-        
-        try {
-            em.getTransaction().begin();
-            em.persist(employe1);
-            em.persist(employe2);
-            em.getTransaction().commit();
-        } catch (Exception ex) {
-            em.getTransaction().rollback();
-        } finally {
-            em.close();
-        }
-    }
 
     public static void initialiserClients() throws ParseException {
         
@@ -80,12 +51,9 @@ public class Main {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DASI-PU");
         EntityManager em = emf.createEntityManager();
         
-        String date_s = "1997-03-01 00:00:00.0";
-        DateFormat format = new SimpleDateFormat ("yyyy/MM/dd",Locale.ENGLISH);
-        Date birthd = format.parse(date_s);
         
         Client aydin =
-        new Client("AKAYDIN", "Aydin","1T","0614765903","aydin.akaydin@insa-lyon.fr","pass",birthd,false);
+        new Client("AKAYDIN", "Aydin","1T","0614765903","aydin.akaydin@insa-lyon.fr","pass",97,03,01);
       
         System.out.println();
         System.out.println("** Clients avant persistance: ");
