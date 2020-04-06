@@ -1,12 +1,16 @@
 package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
-import javax.persistence.Column;
+import java.util.GregorianCalendar;
+//import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -26,22 +30,23 @@ public class Client implements Serializable {
     protected String numeroTel;
     protected String mail;
     protected String motDePasse;
-    protected Date dateDeNaissance;
+    @Temporal(TemporalType.DATE)
+    private Calendar dateDeNaissance;
     protected boolean connected;
         
     
     protected Client() {
     }
 
-    public Client(String nom, String prenom, String adresse, String numeroTel, String mail, String motDePasse, Date dateDeNaissance, boolean connected) {
+    public Client(String nom, String prenom, String adresse, String numeroTel, String mail, String motDePasse, int year,int month, int day) {
         this.nom = nom;
         this.prenom = prenom;
         this.adresse = adresse;
         this.numeroTel = numeroTel;
         this.mail = mail;
         this.motDePasse = motDePasse;
-        this.dateDeNaissance = dateDeNaissance;
-        this.connected = connected;
+        Calendar cal=new GregorianCalendar(year+1900,month,day);
+        this.dateDeNaissance=cal;
     }
 
     public static long getSerialVersionUID() {
@@ -76,7 +81,7 @@ public class Client implements Serializable {
         return motDePasse;
     }
 
-    public Date getDateDeNaissance() {
+    public Calendar getDateDeNaissance() {
         return dateDeNaissance;
     }
 
@@ -108,7 +113,8 @@ public class Client implements Serializable {
         this.motDePasse = motDePasse;
     }
 
-    public void setDateDeNaissance(Date dateDeNaissance) {
+    
+    public void setDateDeNaissance(Calendar dateDeNaissance) {
         this.dateDeNaissance = dateDeNaissance;
     }
 
@@ -118,10 +124,12 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        return "Client{" + "nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", numeroTel=" + numeroTel + ", mail=" + mail + ", motDePasse=" 
-                + motDePasse + ", dateDeNaissance=" + dateDeNaissance.DAY_OF_MONTH + "/"+ dateDeNaissance.MONTH + "/"+ dateDeNaissance.MONTH + ", connected=" + connected + '}';
+        return "Client{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", numeroTel=" + numeroTel + ", mail=" + mail + ", motDePasse=" + motDePasse 
+              + ", dateDeNaissance=" + dateDeNaissance.get(Calendar.DAY_OF_MONTH)+"/"+ dateDeNaissance.get(Calendar.MONTH)+"/"+ (dateDeNaissance.get(Calendar.YEAR) - 1900)+ ", connected=" + connected + '}';
+    
     }
 
+ 
     
     
 
